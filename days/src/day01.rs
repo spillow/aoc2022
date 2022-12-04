@@ -1,4 +1,4 @@
-use std::io::{BufRead};
+use std::io::BufRead;
 use std::{fs::File, io::BufReader};
 
 fn get_calorie_list(path: &str) -> Vec<i32> {
@@ -12,7 +12,7 @@ fn get_calorie_list(path: &str) -> Vec<i32> {
         if line.trim() == "" {
             calories.push(curr_sum);
             curr_sum = 0;
-            continue
+            continue;
         }
         let num: i32 = line.parse().unwrap();
         curr_sum += num;
