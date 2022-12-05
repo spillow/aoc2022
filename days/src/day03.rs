@@ -45,5 +45,5 @@ pub fn part_b() {
         total += get_priority(dup);
     }
 
-    println!("Part B 2: sum of group priorities is {}", total);
+    println!("Part B: sum of group priorities is {}", total);
 }
