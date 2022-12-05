@@ -1,0 +1,59 @@
+use std::collections::HashSet;
+use std::io::BufRead;
+use std::{fs::File, io::BufReader};
+
+fn mk_hash(s: &str) -> HashSet<char> {
+    s.chars().collect()
+}
+
+fn get_priority(c: char) -> i32 {
+    match c {
+        'a'..='z' => c as i32 - 'a' as i32 + 1,
+        'A'..='Z' => c as i32 - 'A' as i32 + 1 + 26,
+        _ => panic!("bad input!"),
+    }
+}
+
+pub fn part_a() {
+    let file = File::open("inputs/day03/input.txt").unwrap();
+    let reader = BufReader::new(file);
+
+    let mut total = 0;
+    for line in reader.lines() {
+        let line = line.unwrap();
+        let comp_size = line.len() / 2;
+        let (fst, snd) = (mk_hash(&line[..comp_size]), mk_hash(&line[comp_size..]));
+        let dup = *fst.intersection(&snd).last().unwrap();
+        total += get_priority(dup);
+    }
+
+    println!("Part A: sum of priorities is {}", total);
+}
+
+pub fn part_b() {
+    let file = File::open("inputs/day03/input.txt").unwrap();
+    let reader = BufReader::new(file);
+
+    let mut total = 0;
+    let mut cur_count = 0;
+    let mut cur_hash = HashSet::new();
+    for line in reader.lines() {
+        let line = line.unwrap();
+        cur_count += 1;
+        if cur_count == 1 {
+            cur_hash = mk_hash(&line);
+        }
+        else {
+            cur_hash = cur_hash.intersection(&mk_hash(&line)).copied().collect();
+        }
+
+        if cur_count == 3 {
+            let dup = *cur_hash.iter().last().unwrap();
+            total += get_priority(dup);
+            cur_count = 0;
+            cur_hash.clear();
+        }
+    }
+
+    println!("Part B: sum of group priorities is {}", total);
+}
