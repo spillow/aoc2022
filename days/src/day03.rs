@@ -1,3 +1,4 @@
+use itertools::Itertools;
 use std::collections::HashSet;
 use std::io::BufRead;
 use std::{fs::File, io::BufReader};
@@ -35,25 +36,14 @@ pub fn part_b() {
     let reader = BufReader::new(file);
 
     let mut total = 0;
-    let mut cur_count = 0;
-    let mut cur_hash = HashSet::new();
-    for line in reader.lines() {
-        let line = line.unwrap();
-        cur_count += 1;
-        if cur_count == 1 {
-            cur_hash = mk_hash(&line);
-        }
-        else {
-            cur_hash = cur_hash.intersection(&mk_hash(&line)).copied().collect();
-        }
-
-        if cur_count == 3 {
-            let dup = *cur_hash.iter().last().unwrap();
-            total += get_priority(dup);
-            cur_count = 0;
-            cur_hash.clear();
-        }
+    for lines in &reader.lines().chunks(3) {
+        let set = lines
+            .map(|line| mk_hash(&line.unwrap()))
+            .reduce(|acc, h| acc.intersection(&h).cloned().collect())
+            .unwrap();
+        let dup = *set.iter().last().unwrap();
+        total += get_priority(dup);
     }
 
-    println!("Part B: sum of group priorities is {}", total);
+    println!("Part B 2: sum of group priorities is {}", total);
 }
