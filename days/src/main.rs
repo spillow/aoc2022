@@ -22,8 +22,8 @@ fn main() {
         println!("**Day 5**");
         day05::part_a();
         day05::part_b();
+        println!("**Day 6**");
+        day06::part_a();
+        day06::part_b();
     }
-    println!("**Day 6**");
-    day06::part_a();
-    day06::part_b();
 }
