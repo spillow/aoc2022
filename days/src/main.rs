@@ -3,6 +3,7 @@ mod day02;
 mod day03;
 mod day04;
 mod day05;
+mod day06;
 
 fn main() {
     if false {
@@ -18,8 +19,11 @@ fn main() {
         println!("**Day 4**");
         day04::part_a();
         day04::part_b();
+        println!("**Day 5**");
+        day05::part_a();
+        day05::part_b();
     }
-    println!("**Day 5**");
-    day05::part_a();
-    day05::part_b();
+    println!("**Day 6**");
+    day06::part_a();
+    day06::part_b();
 }
